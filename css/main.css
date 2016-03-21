@@ -15,6 +15,7 @@ html
     color: #222;
     font-size: 1em;
     line-height: 1.4;
+    height: 100%;
 }
 body
 {
@@ -30,10 +31,15 @@ body
 {
     width: 940px;
     margin: 0 auto;
-    height: calc(100% - 72px);
+    height: calc(100%-72px);
     background-color: rgba(0,0,0,0.3);
     padding: 10px;
 }
+.page-body
+{
+    height: 100%;
+}
+
 /*
  * Remove text-shadow in selection highlight:
  * https://twitter.com/miketaylr/status/12228805301
@@ -145,7 +151,7 @@ ul.inlineList > li
 }
 .tabs
 {
-    height: calc(100%-256px);
+    height: 100%;
     
 }
 .menu-hint
@@ -203,7 +209,7 @@ textarea {
 {
     background-color: lightgray;
     clear: both;
-    height: calc(100% - 40px);
+    height: 65%;
 }
 
 /* ==========================================================================
