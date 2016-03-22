@@ -80,10 +80,10 @@ var data = {
 	]
 };
 
-/*function initData () todo
+function initData ()
 {
 	UTILS.ajax("data/config.json", {done: loadPageData});
-}*/
+}
 
 function loadPageData(data){
     updateNotification(data.notification);
@@ -154,11 +154,32 @@ function newWindow ()
 	var iframeAddress = $(this).parent().siblings('iframe').attr('src');
 	window.open(iframeAddress,'_blank');
 }
-$(document).on('click','.expand-icon',newWindow);
 
+function toggleSettings()
+{
+	var settingsArea = $(this).parent().siblings('.settings');
+	if (settingsArea.hasClass('hidden'))
+	{
+		settingsArea.removeClass('hidden');
+	}
+	else
+	{
+		settingsArea.addClass('hidden');
+	}
+	
+}
+
+function cancelSettings ()
+{
+	var settingsArea = $(this).closest('.settings');
+	settingsArea.addClass('hidden');
+}
+$(document).on('click','.expand-icon',newWindow);
+$(document).on('click','.options-icon',toggleSettings);
+$(document).on('click','.btn-cancel',cancelSettings);
 
 /* load data */
-//window.onLoad = initData(); todo
+window.onLoad = initData();
 /**
  * Function to be prefromed after the document is ready
  */

@@ -257,6 +257,58 @@ iframe
     background-color: lightgray !important;
     color: black !important;
 }
+
+/*
+ * buttons amd form formating
+ */
+
+.btn
+{
+    padding: 14px 24px;
+    border: 0 none;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin: 3px;
+    background: #0099cc;
+    color: #ffffff;
+    float: right;
+}
+ 
+.btn:focus, .btn:active:focus, .btn.active:focus
+{
+    outline: 0 none;
+}
+
+.btn-cancel
+{
+    background: red;
+}
+
+.settings
+{
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0 5px 5px 0px rgba(0,0,0,0.15);
+    position: absolute;
+    width: 48.5%;
+    z-index: 99;
+    box-sizing: border-box;
+    margin-top: 54px;
+    margin-left: 0.5%;
+}
+
+.report-form
+{
+    float: left;
+    width: 100%;
+}
+
+.form-row > input {
+    margin-right: 30px;
+    width: 35%;
+}
+
 /*
  * Remove the gap between audio, canvas, iframes,
  * Images, videos and the bottom of their containers:
