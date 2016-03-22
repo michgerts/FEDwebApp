@@ -36,7 +36,18 @@ function setActiveTab ()
 	$($(this).attr('href')).removeClass('hidden');
 }
 
+/**
+ * open iframe in new window
+ */
+function newWindow ()
+{
+	var iframeAddress = $(this).parent().siblings('iframe').attr('src');
+	window.open(iframeAddress,'_blank');
+}
+
 $(document).on('click','#tabList a',setActiveTab);
+$(document).on('click','.expand-icon',newWindow);
+
 /**
  * Function to be prefromed after the document is ready
  */
