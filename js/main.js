@@ -3,7 +3,7 @@
  */
 
 var tabNames = ['#quick-reports', '#fmy-folders', '#my-team-folders', '#public-folders'];
-var data = {
+/*var data = {
 	"notification": "The data of UTF BI would be updated at 16:00 pm.",
 	"quickActions": [
 		{
@@ -78,7 +78,7 @@ var data = {
 			}
 		}
 	]
-};
+};*/
 
 function initData ()
 {
@@ -278,11 +278,28 @@ function changeIframe ()
 	iFrame.attr('src',link.val());
 }
 
+function serchReports ()
+{
+	var searchString = $(this).find('input').val();
+	reportArray = $('select option').contents();
+	if (reportArray.length==0)
+	{
+		var msg = "The searched report "+searchString+" was not found."
+		data.notification = msg;
+	}
+	else if (reportArray.indexOf()==-1)
+	{
+		var msg = "The searched report "+searchString+" was not found."
+		$(".notifications").append(msg);
+	}		
+}
+
 $(document).on('click','.expand-icon',newWindow);
 $(document).on('click','.options-icon',toggleSettings);
 $(document).on('click','.btn-cancel',cancelSettings);
 $(document).on('click','.btn-save',saveSettings);
 $(document).on('change','select',changeIframe);
+$(document).on('submit','.search-box',serchReports);
 
 /* load data */
 window.onLoad = initData();
