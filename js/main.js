@@ -4,36 +4,38 @@
 
 var tabNames = ['#quick-reports', '#fmy-folders', '#my-team-folders', '#public-folders'];
 
-/* load the correct tab upon webpage load */
-function initActiveTab ()
+function initData ()
 {
-	/* get the hash addresss from the url */
-	var winLocation = window.location.href;
-	var activeTab = '#'+winLocation.split('#')[1];
-	if ((tabNames.indexOf(activeTab) == -1) || (activeTab==undefined) )
-	{
-		$('#tabList a[href="#quick-reports"]').trigger('click');
-	}
-	else
-	{
-		$('#tabList a[href="'+activeTab+'"]').trigger('click');
-	}
+	UTILS.ajax("data/config.json", {done: loadPageData});
+}
+
+function loadPageData(data){
+    updateNotification(data.notification);
+}
+
+function updateNotification(data){
+    $(".notifications").classList.add('hidden');
+    if(data != undefined && data!=""){
+        $(".notifications").innerHTML = data;
+        $(".notifications").classList.remove('hidden');
+    }
 }
 
 /** 
  * load the correct tab upon click on a link:
- * see $(document).on('click','#tabList a',setActiveTab) for call fir function
+ * see UTILS.addEvent(window, "hashchange", setActiveTab); for function call
  */
 function setActiveTab ()
 {
 	$('#tabList > li').removeClass('activeTab');
-	$(this).parent().addClass('activeTab');
+	var hash = location.hash;
+	$('a[href="'+hash+'"]').parent().addClass('activeTab');
 	/* hide all tabs and show the "correct" one */
 	$.each(tabNames, function (index, value)
 	{
 		$(value).addClass('hidden');
 	});
-	$($(this).attr('href')).removeClass('hidden');
+	$($('a[href="'+hash+'"]').attr('href')).removeClass('hidden');
 }
 
 /**
@@ -44,14 +46,16 @@ function newWindow ()
 	var iframeAddress = $(this).parent().siblings('iframe').attr('src');
 	window.open(iframeAddress,'_blank');
 }
-
-$(document).on('click','#tabList a',setActiveTab);
 $(document).on('click','.expand-icon',newWindow);
 
+
+/* load data */
+window.onLoad = initData();
 /**
  * Function to be prefromed after the document is ready
  */
 $(document).ready(function()
 {
-	initActiveTab();
+	document.location.hash = '#quick-reports';
+	UTILS.addEvent(window, "hashchange", setActiveTab);
 });
