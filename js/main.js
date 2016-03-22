@@ -102,17 +102,20 @@ function updateNavSection(data)
 {
 	if(data != undefined && data!="")
 	{
-		/* add title */
-		$(".nav-section:nth-of-type(1)").prepend('<p>'+data[0].label+'</p>');
-		/* add icon */
-		$(".nav-section").first().children('.cropHight').append('<img class="scale" src="Images/icons/'+data[0].icon+'.png" alt"page icon">')
-		/* add action label */
-		$(".nav-section").first().find('.menu-hint').prepend('<p>'+data[0].actionsLabel+'</p>');
-		/* add action list */
-		for (var i=0;i<data[0].actions[i].url.length; i++)
+		for (var j=0;j<data.length;j++)
 		{
-			$(".nav-section").first().find('.action-list').append(
-				'<li><a href="'+data[0].actions[i].url+'" target="_blank">'+data[0].actions[i].label+'</a></li>');
+			/* add title */
+			$(".nav-section:nth-of-type("+(j+1)+")").prepend('<p>'+data[j].label+'</p>');
+			/* add icon */
+			$(".nav-section:nth-of-type("+(j+1)+")").children('.cropHight').append('<img class="scale" src="Images/icons/'+data[j].icon+'.png" alt"page icon">')
+			/* add action label */
+			$(".nav-section:nth-of-type("+(j+1)+")").find('.menu-hint').prepend('<p>'+data[j].actionsLabel+'</p>');
+			/* add action list */
+			for (var i=0;i<data[j].actions.length; i++)
+			{
+				$(".nav-section:nth-of-type("+(j+1)+")").find('.action-list').append(
+					'<li><a href="'+data[j].actions[i].url+'" target="_blank">'+data[j].actions[i].label+'</a></li>');
+			}
 		}
 	}
 }
