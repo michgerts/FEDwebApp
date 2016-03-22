@@ -319,6 +319,13 @@ iframe
     border-color: red;
 }
 
+
+select
+{
+    margin-top: 20px;
+    margin-left: 20px;
+    width: 150px;
+}
 /*
  * Remove the gap between audio, canvas, iframes,
  * Images, videos and the bottom of their containers:

@@ -187,8 +187,16 @@ function saveSettings()
 	form.find('.has-tip').removeAttr('data-tooltip');
 	form.find('.has-tip').removeClass('has-tip');
 	/* validate */
-	validateForm(form);
+	var valid = validateForm(form);
 	/* update the drop list */
+	if (valid)
+	{
+		var select = $(this).closest('.settings').parent().find('select');
+		select.find('option').remove();
+		updateDropList(select, form);
+		select.find('option:nth-of-type(1)').attr('selected','selected');
+		select.change();
+	}
 }
 
 function validateForm (form)
@@ -240,12 +248,41 @@ function validateForm (form)
 		firstInvalid.addClass('has-tip');
 		firstInvalid.focus();
 	}
+	else
+	{
+		var settingsArea = $(form).closest('.settings');
+		settingsArea.addClass('hidden');
+		return true;
+	}
+
+}
+
+function updateDropList(select, form)
+{
+	for (var j=0;j<3;j++)
+	{
+		var fieldset = form.find("fieldset:nth-of-type("+(j+1)+")");
+		var name = fieldset.find('input:nth-of-type(1)');
+		var url = fieldset.find('input:nth-of-type(2)');
+		if (name.val().trim()!="")
+		{
+			select.append('<option value="'+url.val()+'">'+name.val()+'</option>');
+		}
+	}
+}
+
+function changeIframe ()
+{
+	var link = $(this).find(':selected');
+	var iFrame = $(this).parent().parent().find('iframe');
+	iFrame.attr('src',link.val());
 }
 
 $(document).on('click','.expand-icon',newWindow);
 $(document).on('click','.options-icon',toggleSettings);
 $(document).on('click','.btn-cancel',cancelSettings);
 $(document).on('click','.btn-save',saveSettings);
+$(document).on('change','select',changeIframe);
 
 /* load data */
 window.onLoad = initData();
