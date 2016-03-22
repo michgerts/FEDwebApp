@@ -21,7 +21,7 @@ body
 {
     margin: 0px;
     background-color: gray;
-    background: url("../Images/body-background.jpg") no-repeat center center fixed;
+    background: url("../images/body-background.jpg") no-repeat center center fixed;
     background-size: cover;
     height: 100%;
     position: relative;
@@ -133,7 +133,7 @@ ul.action-list
     opacity: 0;
     z-index: 10;
     border: 1px solid #B8B8B8;
-    
+    visibility: hidden;
 }
 
 .action-list > li
@@ -175,6 +175,7 @@ ul.action-list
     opacity: 1;
     height: auto;
     transition: all 0.2s ease-in;
+    visibility: visible;
 }
 
 ul.inlineList > li
@@ -241,7 +242,20 @@ iframe
 }
 .hidden
 {
-    display: none;
+    visibility: hidden;
+}
+
+.greyArea 
+{
+    background-color: lightgray;
+    clear: both;
+    height: 65%;
+}
+
+.activeTab
+{
+    background-color: lightgray !important;
+    color: black !important;
 }
 /*
  * Remove the gap between audio, canvas, iframes,
@@ -275,12 +289,7 @@ fieldset {
 textarea {
     resize: vertical;
 }
-.greyArea 
-{
-    background-color: lightgray;
-    clear: both;
-    height: 65%;
-}
+
 
 /* ==========================================================================
    Browser Upgrade Prompt
