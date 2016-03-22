@@ -88,6 +88,7 @@ var data = {
 function loadPageData(data){
     updateNotification(data.notification);
     updateNavSection(data.quickActions);
+    updateStaticTabs(data.tabsList);
 }
 
 function updateNotification(data){
@@ -120,6 +121,14 @@ function updateNavSection(data)
 	}
 }
 
+function updateStaticTabs(data)
+{
+	if(data != undefined && data!="")
+	{
+		$('#fmy-folders > iframe').attr('src',data[1].options.url);
+		$('#public-folders > iframe').attr('src',data[3].options.url);
+	}
+}
 /** 
  * load the correct tab upon click on a link:
  * see UTILS.addEvent(window, "hashchange", setActiveTab); for function call
