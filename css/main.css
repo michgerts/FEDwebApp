@@ -21,7 +21,7 @@ body
 {
     margin: 0px;
     background-color: gray;
-    background: url("../images/body-background.jpg") no-repeat center center fixed;
+    background: url("../Images/body-background.jpg") no-repeat center center fixed;
     background-size: cover;
     height: 100%;
     position: relative;
@@ -259,7 +259,7 @@ iframe
 }
 /*
  * Remove the gap between audio, canvas, iframes,
- * images, videos and the bottom of their containers:
+ * Images, videos and the bottom of their containers:
  * https://github.com/h5bp/html5-boilerplate/issues/440
  */
 
