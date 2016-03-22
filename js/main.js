@@ -14,10 +14,10 @@ function loadPageData(data){
 }
 
 function updateNotification(data){
-    $(".notifications").classList.add('hidden');
+    $(".notifications").addClass('hidden');
     if(data != undefined && data!=""){
         $(".notifications").innerHTML = data;
-        $(".notifications").classList.remove('hidden');
+        $(".notifications").removeClass('hidden');
     }
 }
 
