@@ -4,6 +4,84 @@
 
 var tabNames = ['#quick-reports', '#fmy-folders', '#my-team-folders', '#public-folders'];
 
+var data = {
+	"notification": "The data of UTF BI would be updated at 16:00 pm.",
+	"quickActions": [
+		{
+			"label": "Select<br>Reporting Platform",
+			"icon": "action-report-new",
+			"actionsLabel": "Choose QS report",
+			"actions": [
+				{
+					"label": "Corporate",
+					"url": "http://netcraft.co.il"
+				}, {
+					"label": "Simple",
+					"url": "http://netcraft.co.il"
+				}, {
+					"label": "Business",
+					"url": "http://netcraft.co.il"
+				}
+			]
+		}, {
+			"label": "Select<br>Dashboard",
+			"icon": "action-report-top",
+			"actionsLabel": "Choose Dashboard",
+			"actions": [
+				{
+					"label": "Account Dashboard",
+					"url": "http://netcraft.co.il"
+				}, {
+					"label": "Daily Huddle Dashboard",
+					"url": "http://netcraft.co.il"
+				}, {
+					"label": "Tier 2 Dashboard",
+					"url": "http://netcraft.co.il"
+				}, {
+					"label": "ADM Dashboard",
+					"url": "http://netcraft.co.il"
+				}
+			]
+		}, {
+			"label": "Help &amp;<br>Tutorials",
+			"icon": "actions-help",
+			"actionsLabel": "Choose guide",
+			"actions": [
+				{
+					"label": "Real Time",
+					"url": "http://netcraft.co.il"
+				}, {
+					"label": "Past Data",
+					"url": "http://netcraft.co.il"
+				}, {
+					"label": "Corporate Data",
+					"url": "http://netcraft.co.il"
+				}
+			]
+		}
+	],
+	"tabsList": [
+		{
+			"options": {
+				"rowLabel": "Report"
+			}
+		}, {
+			"options": {
+				"url": "http://www.paulirish.com/"
+			}
+		}, {
+			"options": {
+				"rowLabel": "Folder"
+			}
+		}, {
+			"options": {
+				"url": "http://addyosmani.com/"
+			}
+		}
+	]
+};
+
+
 function initData ()
 {
 	UTILS.ajax("data/config.json", {done: loadPageData});
@@ -20,6 +98,7 @@ function updateNotification(data){
     $(".notifications").addClass('hidden');
     if(data != undefined && data!="")
     {
+        $(".notifications").empty();
         $(".notifications").append(data);
         $(".notifications").removeClass('hidden');
     }
@@ -69,6 +148,7 @@ function setActiveTab ()
 		$(value).addClass('hidden');
 	});
 	$($('a[href="'+hash+'"]').attr('href')).removeClass('hidden');
+	window.scrollTo(0,0);
 }
 
 /**
@@ -202,9 +282,9 @@ function changeIframe ()
 	iFrame.attr('src',link.val());
 }
 
-function serchReports ()
+function serchReports (form)
 {
-	var searchString = $(this).find('input').val();
+	var searchString = $(form).find('input').val()
 	reportArray = $('select option').contents();
 	if (reportArray.length==0)
 	{
@@ -214,8 +294,9 @@ function serchReports ()
 	else if (reportArray.indexOf()==-1)
 	{
 		var msg = "The searched report "+searchString+" was not found."
-		$(".notifications").append(msg);
-	}		
+		updateNotification(msg);
+	}
+	$(form).find('input').val("");
 }
 
 $(document).on('click','.expand-icon',newWindow);
@@ -223,7 +304,6 @@ $(document).on('click','.options-icon',toggleSettings);
 $(document).on('click','.btn-cancel',cancelSettings);
 $(document).on('click','.btn-save',saveSettings);
 $(document).on('change','select',changeIframe);
-$(document).on('submit','.search-box',serchReports);
 
 /* load data */
 window.onLoad = initData();
@@ -232,6 +312,13 @@ window.onLoad = initData();
  */
 $(document).ready(function()
 {
-	document.location.hash = '#quick-reports';
 	UTILS.addEvent(window, "hashchange", setActiveTab);
+	document.location.hash = '#quick-reports';
+	loadPageData(data);
+	/* don't reload the page */
+	$('.search-box').on('submit',function (e)
+	{
+		e.preventDefault();
+		serchReports(this);
+	});
 });
