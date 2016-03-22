@@ -85,7 +85,8 @@ function initData ()
 	UTILS.ajax("data/config.json", {done: loadPageData});
 }
 
-function loadPageData(data){
+function loadPageData(data)
+{
     updateNotification(data.notification);
     updateNavSection(data.quickActions);
     updateStaticTabs(data.tabsList);
@@ -158,6 +159,7 @@ function newWindow ()
 function toggleSettings()
 {
 	var settingsArea = $(this).parent().siblings('.settings');
+	settingsArea.find('.invalid').removeClass('invalid');
 	if (settingsArea.hasClass('hidden'))
 	{
 		settingsArea.removeClass('hidden');
@@ -172,11 +174,78 @@ function toggleSettings()
 function cancelSettings ()
 {
 	var settingsArea = $(this).closest('.settings');
+	settingsArea.find('input').val('');
 	settingsArea.addClass('hidden');
 }
+
+function saveSettings()
+{
+	var form = $(this).closest('.report-form');
+	/* remove invalideties and tool tip */
+	form.find('.invalid').removeClass('invalid');
+	form.find('.has-tip').removeAttr('title');
+	form.find('.has-tip').removeAttr('data-tooltip');
+	form.find('.has-tip').removeClass('has-tip');
+	/* validate */
+	validateForm(form);
+	/* update the drop list */
+}
+
+function validateForm (form)
+{
+	var err = [];
+	for (var j=0;j<3;j++)
+	{
+		var fieldset = form.find("fieldset:nth-of-type("+(j+1)+")");
+		var name = fieldset.find('input:nth-of-type(1)');
+		var url = fieldset.find('input:nth-of-type(2)');
+		var msg = '';
+		/* there is a name and no url or the url missmatches */
+		if (name.val().trim()!="")
+		{
+			var httpRegEx = "^(http|https)\:\/\/[^\/]+\/*$";
+			var NOhttpRegEx = "^[a-zA-Z][^\/]*\.co\/*";
+			if (url.val().trim().search(NOhttpRegEx)!=-1)
+			{
+				url.val('http://'+url.val().trim());
+			}
+			else if (url.val().trim().search(httpRegEx)!=-1)
+			{
+				/* the url is valid */
+			}
+			else
+			{
+				msg = 'Please enter a valid URL';
+				url.addClass('invalid');
+				if (url.val().trim()=="")
+				{
+					msg = 'Please enter a URL to match the name';
+				}
+				err.push(msg);
+			}
+		}
+		/* there is a url and no name*/
+		if (url.val().trim()!="" && (name.val().trim()==""))
+		{
+			name.addClass('invalid');
+			msg = 'Please enter a name to match the URL'
+			err.push(msg);
+		}
+	}
+	if (form.find('.invalid')[0]!=undefined)
+	{
+		var firstInvalid = $('#'+form.find('.invalid')[0].id);
+		firstInvalid.attr('data-tooltip','');
+		firstInvalid.attr('title',err[0]);
+		firstInvalid.addClass('has-tip');
+		firstInvalid.focus();
+	}
+}
+
 $(document).on('click','.expand-icon',newWindow);
 $(document).on('click','.options-icon',toggleSettings);
 $(document).on('click','.btn-cancel',cancelSettings);
+$(document).on('click','.btn-save',saveSettings);
 
 /* load data */
 window.onLoad = initData();

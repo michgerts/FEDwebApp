@@ -265,24 +265,26 @@ iframe
 .btn
 {
     padding: 14px 24px;
-    border: 0 none;
     font-weight: 700;
     letter-spacing: 1px;
     text-transform: uppercase;
     margin: 3px;
     background: #0099cc;
     color: #ffffff;
-    float: right;
+    opacity: 0.5;
 }
  
-.btn:focus, .btn:active:focus, .btn.active:focus
+.btn:focus, .btn:active:focus, .btn.active:focus, .btn:hover
 {
-    outline: 0 none;
+    border-style: solid;
+    border-width: 2px;
+    opacity: 1;
 }
 
 .btn-cancel
 {
     background: red;
+    margin-left: 70%;
 }
 
 .settings
@@ -304,9 +306,17 @@ iframe
     width: 100%;
 }
 
-.form-row > input {
+.form-row > input
+{
     margin-right: 30px;
     width: 35%;
+}
+
+.invalid
+{
+    border-style: solid;
+    border-width: 2px;
+    border-color: red;
 }
 
 /*
