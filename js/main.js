@@ -3,22 +3,118 @@
  */
 
 var tabNames = ['#quick-reports', '#fmy-folders', '#my-team-folders', '#public-folders'];
+var data = {
+	"notification": "The data of UTF BI would be updated at 16:00 pm.",
+	"quickActions": [
+		{
+			"label": "Select<br>Reporting Platform",
+			"icon": "action-report-new",
+			"actionsLabel": "Choose QS report",
+			"actions": [
+				{
+					"label": "Corporate",
+					"url": "http://netcraft.co.il"
+				}, {
+					"label": "Simple",
+					"url": "http://netcraft.co.il"
+				}, {
+					"label": "Business",
+					"url": "http://netcraft.co.il"
+				}
+			]
+		}, {
+			"label": "Select<br>Dashboard",
+			"icon": "action-report-top",
+			"actionsLabel": "Choose Dashboard",
+			"actions": [
+				{
+					"label": "Account Dashboard",
+					"url": "http://netcraft.co.il"
+				}, {
+					"label": "Daily Huddle Dashboard",
+					"url": "http://netcraft.co.il"
+				}, {
+					"label": "Tier 2 Dashboard",
+					"url": "http://netcraft.co.il"
+				}, {
+					"label": "ADM Dashboard",
+					"url": "http://netcraft.co.il"
+				}
+			]
+		}, {
+			"label": "Help &amp;<br>Tutorials",
+			"icon": "actions-help",
+			"actionsLabel": "Choose guide",
+			"actions": [
+				{
+					"label": "Real Time",
+					"url": "http://netcraft.co.il"
+				}, {
+					"label": "Past Data",
+					"url": "http://netcraft.co.il"
+				}, {
+					"label": "Corporate Data",
+					"url": "http://netcraft.co.il"
+				}
+			]
+		}
+	],
+	"tabsList": [
+		{
+			"options": {
+				"rowLabel": "Report"
+			}
+		}, {
+			"options": {
+				"url": "http://www.paulirish.com/"
+			}
+		}, {
+			"options": {
+				"rowLabel": "Folder"
+			}
+		}, {
+			"options": {
+				"url": "http://addyosmani.com/"
+			}
+		}
+	]
+};
 
-function initData ()
+/*function initData () todo
 {
 	UTILS.ajax("data/config.json", {done: loadPageData});
-}
+}*/
 
 function loadPageData(data){
     updateNotification(data.notification);
+    updateNavSection(data.quickActions);
 }
 
 function updateNotification(data){
     $(".notifications").addClass('hidden');
-    if(data != undefined && data!=""){
-        $(".notifications").text(data);
+    if(data != undefined && data!="")
+    {
+        $(".notifications").append(data);
         $(".notifications").removeClass('hidden');
     }
+}
+function updateNavSection(data)
+{
+	if(data != undefined && data!="")
+	{
+		/* add title */
+		$(".nav-section:nth-of-type(1)").prepend('<p>'+data[0].label+'</p>');
+		/* add icon */
+		$(".nav-section").first().children('.cropHight').append('<img class="scale" src="Images/icons/'+data[0].icon+'.png" alt"page icon">')
+		/* add action label */
+		$(".nav-section").first().find('.menu-hint').prepend('<p>'+data[0].actionsLabel+'</p>');
+		/* add action list */
+		for (var i=0;i<data[0].actions[i].url.length; i++)
+		{
+			$(".nav-section").first().find('.action-list').append(
+				'<li><a href="'+data[0].actions[i].url+'" target="_blank">'+data[0].actions[i].label+'</a></li>');
+		}
+	}
 }
 
 /** 
@@ -50,7 +146,7 @@ $(document).on('click','.expand-icon',newWindow);
 
 
 /* load data */
-window.onLoad = initData();
+//window.onLoad = initData(); todo
 /**
  * Function to be prefromed after the document is ready
  */
@@ -58,4 +154,5 @@ $(document).ready(function()
 {
 	document.location.hash = '#quick-reports';
 	UTILS.addEvent(window, "hashchange", setActiveTab);
+	loadPageData(data); // todo
 });
