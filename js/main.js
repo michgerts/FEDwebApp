@@ -16,7 +16,7 @@ function loadPageData(data){
 function updateNotification(data){
     $(".notifications").addClass('hidden');
     if(data != undefined && data!=""){
-        $(".notifications").innerHTML = data;
+        $(".notifications").text(data);
         $(".notifications").removeClass('hidden');
     }
 }
