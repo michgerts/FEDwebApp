@@ -3,8 +3,8 @@
  */
 
 var tabNames = ['#quick-reports', '#fmy-folders', '#my-team-folders', '#public-folders'];
-
-var data = {
+/* local data */
+/*var data = {
 	"notification": "The data of UTF BI would be updated at 16:00 pm.",
 	"quickActions": [
 		{
@@ -79,7 +79,7 @@ var data = {
 			}
 		}
 	]
-};
+};*/
 
 
 function initData ()
@@ -291,10 +291,33 @@ function serchReports (form)
 		var msg = "The searched report "+searchString+" was not found."
 		updateNotification(msg);
 	}
-	else if (reportArray.indexOf()==-1)
+	else
 	{
-		var msg = "The searched report "+searchString+" was not found."
-		updateNotification(msg);
+		var optionsList = $('option');
+		var option;
+		var found = false;
+		var select;
+		optionsList.each(function()
+		{
+			if (($(this).text()==searchString) && (!found))
+			{
+				option=$(this);
+				select = option.parent();
+				option.attr('selected','selected');
+				found = true;
+			}
+		});
+		if (option==undefined)
+		{
+			var msg = "The searched report "+searchString+" was not found."
+			updateNotification(msg);
+		}
+		else
+		{
+			var id = option.parent().parent().parent().attr('id');
+			document.location.hash = '#'+id;
+			select.change();
+		}
 	}
 	$(form).find('input').val("");
 }
@@ -314,7 +337,7 @@ $(document).ready(function()
 {
 	UTILS.addEvent(window, "hashchange", setActiveTab);
 	document.location.hash = '#quick-reports';
-	loadPageData(data);
+	/*loadPageData(data); local data*/
 	/* don't reload the page */
 	$('.search-box').on('submit',function (e)
 	{
